@@ -1,9 +1,4 @@
-function maxProfit(prices) {
-  let minPrice = Infinity;
-  let maxProfit = 0;
-  for (const price of prices) {
-    minPrice = Math.min(minPrice, price);
-    maxProfit = Math.max(maxProfit, price - minPrice);
-  }
-  return maxProfit;
-}
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size),
+  );
