@@ -1,14 +1,20 @@
-function firstMissingPositive(nums) {
-  const n = nums.length;
-  for (let i = 0; i < n; i++) {
-    while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]) {
-      const temp = nums[nums[i] - 1];
-      nums[nums[i] - 1] = nums[i];
-      nums[i] = temp;
+function calculate(s) {
+  const stack = [];
+  let num = 0;
+  let sign = "+";
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (!isNaN(parseInt(char)) && char !== " ") {
+      num = num * 10 + parseInt(char);
+    }
+    if (isNaN(parseInt(char)) || i === s.length - 1) {
+      if (sign === "+") stack.push(num);
+      else if (sign === "-") stack.push(-num);
+      else if (sign === "*") stack.push(stack.pop() * num);
+      else if (sign === "/") stack.push(parseInt(stack.pop() / num));
+      num = 0;
+      sign = char;
     }
   }
-  for (let i = 0; i < n; i++) {
-    if (nums[i] !== i + 1) return i + 1;
-  }
-  return n + 1;
+  return stack.reduce((acc, val) => acc + val, 0);
 }
