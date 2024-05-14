@@ -1,12 +1,13 @@
-function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-  const map = new Map();
-  for (const char of s) {
-    map.set(char, (map.get(char) || 0) + 1);
-  }
-  for (const char of t) {
-    if (!map.has(char) || map.get(char) === 0) return false;
-    map.set(char, map.get(char) - 1);
-  }
-  return true;
+function buildTree(preorder, inorder) {
+  if (preorder.length === 0 || inorder.length === 0) return null;
+  const rootVal = preorder[0];
+  const root = new TreeNode(rootVal);
+  const index = inorder.indexOf(rootVal);
+  const leftInorder = inorder.slice(0, index);
+  const rightInorder = inorder.slice(index + 1);
+  const leftPreorder = preorder.slice(1, 1 + leftInorder.length);
+  const rightPreorder = preorder.slice(1 + leftInorder.length);
+  root.left = buildTree(leftPreorder, leftInorder);
+  root.right = buildTree(rightPreorder, rightInorder);
+  return root;
 }
